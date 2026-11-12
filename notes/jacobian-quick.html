@@ -77,9 +77,10 @@ body{
 /* ---- title page ---- */
 .title-section{text-align:center;padding:22px 0 30px;position:relative}
 .title-badge{
-  display:inline-block;background:linear-gradient(135deg,#6c5ce7,#a29bfe);color:#fff;
+  display:block;width:max-content;max-width:100%;margin:0 auto 18px;
+  background:linear-gradient(135deg,#6c5ce7,#a29bfe);color:#fff;
   padding:5px 18px;border-radius:20px;font-family:var(--hand-head);font-size:13px;
-  letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;
+  letter-spacing:2px;text-transform:uppercase;
 }
 .main-title{
   font-family:var(--hand-title);font-size:52px;font-weight:700;color:var(--blue-pen);
@@ -107,6 +108,7 @@ body{
   font-family:var(--hand-title);font-size:31px;font-weight:700;margin:6px 0 16px;
   padding:6px 4px 8px;display:flex;align-items:center;gap:12px;border-bottom:3px solid;
 }
+.section-heading .head-label{flex:1;min-width:0}
 .section-heading.red{color:var(--red-pen);border-color:var(--red-pen)}
 .section-heading.blue{color:var(--blue-pen);border-color:var(--blue-pen)}
 .section-heading.green{color:var(--green-pen);border-color:var(--green-pen)}
@@ -154,7 +156,7 @@ body{
 .sticky-note.yellow{background:var(--sticky-yellow)}
 .sticky-note.pink{background:var(--sticky-pink);transform:rotate(.7deg)}
 .sticky-note.blue{background:var(--sticky-blue)}
-.sticky-note::before{content:'📌';position:absolute;top:-12px;left:18px;font-size:17px}
+.sticky-note::before{content:'';position:absolute;top:-9px;left:20px;width:13px;height:13px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff8a8a,#c0392b);box-shadow:1px 2px 3px rgba(0,0,0,.3)}
 .sticky-title{font-family:var(--hand-title);font-size:19px;font-weight:700;margin-bottom:4px;color:var(--dark-ink)}
 
 /* ---- formula card (THE star of this sheet) ---- */
@@ -177,11 +179,17 @@ body{
 .formula-link .green{color:var(--green-pen)} .formula-link .purple{color:var(--purple-pen)}
 .formula-link .orange{color:var(--orange-pen)}
 .formula-link small{font-size:11px;color:var(--blue-pen);font-family:var(--hand-head);display:block;text-align:center;letter-spacing:.5px}
-.terms{margin:6px 0 2px;font-size:14.5px}
-.terms dt{display:inline;font-family:'Courier New',monospace;font-weight:700;color:var(--purple-pen)}
-.terms dd{display:inline;margin:0 2px}
-.terms dd::after{content:' · ';color:#bbb}
-.terms dd:last-child::after{content:''}
+.terms{
+  margin:10px 0 6px;display:grid;grid-template-columns:max-content minmax(0,1fr);
+  gap:5px 12px;font-size:14.5px;align-items:baseline;
+}
+.terms dt{
+  font-family:'Courier New',monospace;font-weight:700;color:var(--purple-pen);
+  background:#f1ecff;border:1px solid #ddd3ff;border-radius:6px;
+  padding:1px 8px;justify-self:start;white-space:nowrap;font-size:13.5px;
+}
+.terms dd{margin:0;color:#3c3f47;border-bottom:1px dotted #e2dccb;padding-bottom:4px}
+@media (max-width:560px){.terms{grid-template-columns:1fr}.terms dd{padding-left:8px}}
 .theory-link{
   font-family:var(--hand-head);font-size:13px;color:var(--purple-pen);font-weight:700;
   text-decoration:none;border-bottom:2px dotted var(--purple-pen);
@@ -193,7 +201,8 @@ body{
 .notes-table th{font-family:var(--hand-title);font-size:17px;text-align:left;padding:8px 12px;border-bottom:2.5px solid var(--blue-pen);color:var(--blue-pen)}
 .notes-table td{padding:7px 12px;border-bottom:1.5px dashed #ddd;vertical-align:top}
 .notes-table tr:last-child td{border-bottom:none}
-.table-scroll{overflow-x:auto}
+.table-scroll{overflow-x:auto;max-width:100%}
+.page{overflow-x:clip}
 
 /* ---- step list ---- */
 .steps{list-style:none;margin:10px 0}
@@ -207,19 +216,19 @@ body{
 .bullet-list{list-style:none;margin:10px 0}
 .bullet-list li{position:relative;padding-left:28px;margin:6px 0;font-size:15.5px}
 .bullet-list li::before{content:'✦';position:absolute;left:2px;top:0}
-.bullet-list li.check::before{content:'✅'}
-.bullet-list li.cross::before{content:'❌'}
-.bullet-list li.warn::before{content:'⚠️'}
-.bullet-list li.star::before{content:'⭐'}
+.bullet-list li.check::before{content:'✔';color:var(--green-pen);font-weight:700}
+.bullet-list li.cross::before{content:'✘';color:var(--red-pen);font-weight:700}
+.bullet-list li.warn::before{content:'!';color:#fff;background:var(--orange-pen);width:14px;height:14px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;top:3px}
+.bullet-list li.star::before{content:'★';color:#f0a500}
 .bullet-list li.arrow::before{content:'→'}
 
 /* ---- exam trick / memory trick / warning ---- */
 .exam-trick{background:linear-gradient(135deg,#fff3cd,#ffeeba);border:2px solid #ffc107;border-radius:12px;padding:16px 18px;margin:18px 0;position:relative}
-.exam-trick::before{content:'⭐ EXAM GOLD';position:absolute;top:-12px;left:14px;background:#ffc107;color:#856404;padding:2px 12px;border-radius:8px;font-family:var(--hand-head);font-size:13px;font-weight:700}
+.exam-trick::before{content:'EXAM GOLD';position:absolute;top:-12px;left:14px;background:#ffc107;color:#856404;padding:2px 12px;border-radius:8px;font-family:var(--hand-head);font-size:13px;font-weight:700}
 .memory-trick{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border:2px solid var(--green-pen);border-radius:12px;padding:16px 18px;margin:18px 0;position:relative}
-.memory-trick::before{content:'🧠 MEMORY HOOK';position:absolute;top:-12px;left:14px;background:var(--green-pen);color:#fff;padding:2px 12px;border-radius:8px;font-family:var(--hand-head);font-size:13px;font-weight:700}
+.memory-trick::before{content:'MEMORY HOOK';position:absolute;top:-12px;left:14px;background:var(--green-pen);color:#fff;padding:2px 12px;border-radius:8px;font-family:var(--hand-head);font-size:13px;font-weight:700}
 .warning-box{background:linear-gradient(135deg,#fff3e0,#ffe0b2);border:2px solid var(--orange-pen);border-radius:12px;padding:16px 18px;margin:18px 0;position:relative}
-.warning-box::before{content:'⚠️ TRAPS';position:absolute;top:-12px;left:14px;background:var(--orange-pen);color:#fff;padding:2px 12px;border-radius:8px;font-family:var(--hand-head);font-size:13px;font-weight:700}
+.warning-box::before{content:'TRAPS';position:absolute;top:-12px;left:14px;background:var(--orange-pen);color:#fff;padding:2px 12px;border-radius:8px;font-family:var(--hand-head);font-size:13px;font-weight:700}
 
 /* ---- comparison grid ---- */
 .comparison-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
@@ -230,7 +239,7 @@ body{
 
 /* ---- quick check (reveal) ---- */
 .quiz-box{background:linear-gradient(135deg,#e8eaf6,#c5cae9);border:2px solid #5c6bc0;border-radius:12px;padding:16px 18px;margin:16px 0;position:relative}
-.quiz-box::before{content:'🎯 60-SECOND CHECK';position:absolute;top:-12px;left:14px;background:#5c6bc0;color:#fff;padding:2px 12px;border-radius:8px;font-family:var(--hand-head);font-size:13px;font-weight:700}
+.quiz-box::before{content:'60-SECOND CHECK';position:absolute;top:-12px;left:14px;background:#5c6bc0;color:#fff;padding:2px 12px;border-radius:8px;font-family:var(--hand-head);font-size:13px;font-weight:700}
 .quiz-question{font-weight:700;margin:12px 0 6px;font-size:16px}
 .quiz-answer{display:none;background:#fff;padding:8px 14px;border-radius:8px;margin-top:6px;border-left:4px solid #5c6bc0;font-size:15px}
 .quiz-answer.show{display:block}
@@ -249,9 +258,14 @@ a.up:hover{text-decoration:underline}
 code{font-family:'Courier New',monospace;background:#f0ede0;border-radius:5px;padding:1px 6px;font-size:.9em}
 .summary-card{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;border-radius:16px;padding:24px 26px;margin:18px 0;box-shadow:0 10px 30px rgba(102,126,234,.35)}
 .summary-card h3{font-family:var(--hand-title);font-size:26px;margin-bottom:10px}
-.summary-card .summary-row{display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.25);font-size:15.5px}
+.summary-card .summary-row{
+  display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+  padding:7px 0;border-bottom:1px solid rgba(255,255,255,.25);font-size:15.5px;
+}
 .summary-card .summary-row:last-child{border-bottom:none}
-.summary-card .summary-row b{font-family:'Courier New',monospace}
+.summary-card .summary-row > span:first-child{color:#f0eaff;font-family:var(--hand-head)}
+.summary-card .summary-row b{font-family:'Courier New',monospace;color:#fff;font-weight:700}
+@media (max-width:620px){.summary-card .summary-row{flex-direction:column;gap:2px}}
 .full-note-link{display:block;text-align:center;margin:14px 0 0;font-family:var(--hand-head);font-size:15px}
 
 @media (max-width:768px){
@@ -285,19 +299,19 @@ code{font-family:'Courier New',monospace;background:#f0ede0;border-radius:5px;pa
   </div>
 
   <div class="sticky-note yellow" style="max-width:640px;margin:10px auto 4px;transform:rotate(-.8deg)">
-    <div class="sticky-title">🔑 The whole subject in one line</div>
+    <div class="sticky-title">The whole subject in one line</div>
     An integral is a <span class="hl-yellow">sum of (function value) × (tiny area)</span>. Change the coordinates and the <em>tiny areas change size</em> — so you must multiply by <strong>|det J|</strong>, the area-exchange rate.
   </div>
 
   <div class="toc">
-    <div class="toc-title">📋 What's inside</div>
+    <div class="toc-title">What's inside</div>
     <ol class="toc-list">
       <li><a href="#sec-puzzle"><span class="toc-num">1</span>The one puzzle</a></li>
       <li><a href="#sec-symbols"><span class="toc-num">2</span>Symbols &amp; terms, one line each</a></li>
       <li><a href="#sec-cards"><span class="toc-num">3</span>Formula cards (every term explained)</a></li>
       <li><a href="#sec-statements"><span class="toc-num">4</span>Important statements — the 10 commandments</a></li>
       <li><a href="#sec-traps"><span class="toc-num">5</span>Exam traps to never fall into</a></li>
-      <li><a href="#vault"><span class="toc-num">6</span>🧠 THE THEORY VAULT (why it all works)</a></li>
+      <li><a href="#vault"><span class="toc-num">6</span>THE THEORY VAULT (why it all works)</a></li>
       <li><a href="#theory-1d"><span class="toc-num">6.1</span>1-D rehearsal: u-substitution</a></li>
       <li><a href="#theory-sum"><span class="toc-num">6.2</span>The double integral is a sum</a></li>
       <li><a href="#theory-derivation"><span class="toc-num">6.3</span>Derivation: area of one curved patch</a></li>
@@ -315,7 +329,7 @@ code{font-family:'Courier New',monospace;background:#f0ede0;border-radius:5px;pa
 
 <!-- ══════════ PAGE 2 — THE ONE PUZZLE ══════════ -->
 <section class="page" id="sec-puzzle">
-  <h2 class="section-heading red"><span class="section-number red-bg">1</span>The One Puzzle</h2>
+  <h2 class="section-heading red"><span class="section-number red-bg">1</span><span class="head-label">The One Puzzle</span></h2>
   <p style="font-size:16px;margin:6px 0">Find the <span class="hl-yellow">area of an ellipse</span> or the <span class="hl-yellow">volume under a bumpy surface on a round base</span> in x and y — the limits are ugly, the square roots pile up. Change the coordinates and the same integral becomes almost trivial: <u>the region becomes a rectangle and the limits become plain numbers</u>.</p>
   <div class="key-box red-border">
     <span class="box-label red-bg">THE CATCH</span>
@@ -327,13 +341,13 @@ code{font-family:'Courier New',monospace;background:#f0ede0;border-radius:5px;pa
       <tr><td>Area of ellipse x²/a² + y²/b² ≤ 1</td><td>Unit disk in (u, v), J = ab → <strong>area = πab</strong></td></tr>
       <tr><td>Integral over the unit disk</td><td>Rectangle 0≤r≤1, 0≤θ≤2π → <strong>dA = r dr dθ</strong></td></tr>
       <tr><td>Tilted lines x±y = const</td><td>Square [0,2]×[0,2] in (u = x+y, v = x−y), |J| = ½</td></tr>
-      <tr><td>Sphere volume</td><td>Box in (ρ, φ, θ) → <strong>dV = ρ² sinφ dρ dφ dθ</strong></td></tr>
+      <tr><td>Sphere volume</td><td>Box ρ≤R, φ≤π, θ≤2π → <strong>dV = ρ² sinφ dρ dφ dθ</strong> (separates!)</td></tr>
     </tbody>
   </table></div>
 </section>
 <!-- ══════════ PAGE 3 — SYMBOLS & TERMS ══════════ -->
 <section class="page" id="sec-symbols">
-  <h2 class="section-heading blue"><span class="section-number blue-bg">2</span>Symbols &amp; Terms — <em>every</em> term, one line each</h2>
+  <h2 class="section-heading blue"><span class="section-number blue-bg">2</span><span class="head-label">Symbols &amp; Terms — <em>every</em> term, one line each</span></h2>
   <div class="table-scroll"><table class="notes-table">
     <thead><tr><th>Symbol</th><th>Say it as…</th><th>Means</th></tr></thead>
     <tbody>
@@ -354,12 +368,12 @@ code{font-family:'Courier New',monospace;background:#f0ede0;border-radius:5px;pa
       <tr><td><code>g(u)</code></td><td>“substitution function”</td><td>1-D map x = g(u), dx = g′(u) du — the 1-D Jacobian</td></tr>
     </tbody>
   </table></div>
-  <p style="font-size:13px;color:#888;margin-top:8px">📱 Print this page first; every formula card on the next page uses exactly these symbols.</p>
+  <p style="font-size:13px;color:#888;margin-top:8px">Print this page first; every formula card on the next page uses exactly these symbols.</p>
 </section>
 
 <!-- ══════════ PAGE 4 — FORMULA CARDS I ══════════ -->
 <section class="page" id="sec-cards">
-  <h2 class="section-heading green"><span class="section-number green-bg">3</span>Formula Cards — tap the formula to <u>see why it works</u></h2>
+  <h2 class="section-heading green"><span class="section-number green-bg">3</span><span class="head-label">Formula Cards — tap the formula to <u>see why it works</u></span></h2>
   <p style="font-size:14px;color:#666;margin:-4px 0 6px">Every card: the formula, <em>all its terms</em>, and a click-through to the theory vault.</p>
 
   <div class="formula-card">
@@ -387,7 +401,7 @@ code{font-family:'Courier New',monospace;background:#f0ede0;border-radius:5px;pa
   </div>
 
   <div class="formula-card">
-    <span class="formula-label">CARD 3 · ★ THE THEOREM</span>
+    <span class="formula-label">CARD 3 · THE THEOREM (the big one)</span>
     <a class="formula-link" href="#theory-theorem">∬<sub>R</sub> f(x,y) dA = ∬<sub>S</sub> f(x(u,v), y(u,v)) · |<span class="red">∂(x,y)/∂(u,v)</span>| du dv<small>CLICK → THE THEOREM · §6.4</small></a>
     <dl class="terms">
       <dt>R</dt><dd>ugly region in xy</dd>
@@ -416,7 +430,7 @@ code{font-family:'Courier New',monospace;background:#f0ede0;border-radius:5px;pa
     <dl class="terms">
       <dt>a, b</dt><dd>semi-axis lengths of the ellipse</dd>
       <dt>diag J</dt><dd>matrix [[a,0],[0,b]] — constant determinant</dd>
-      <dt>u² + v² ≤ 1</dt><dd>the unit disk the ellipse un-stretches to</dd>
+      <dt>x = au, y = bv</dt><dd>stretch map: unit disk u² + v² ≤ 1 → the ellipse</dd>
     </dl>
     <span class="theory-link">→ One number (ab) does all the work. See <a class="theory-link" href="#theory-ellipse">Theory §6.6</a></span>
   </div>
@@ -479,7 +493,7 @@ code{font-family:'Courier New',monospace;background:#f0ede0;border-radius:5px;pa
 
 <!-- ══════════ PAGE 5 — IMPORTANT STATEMENTS ══════════ -->
 <section class="page" id="sec-statements">
-  <h2 class="section-heading purple"><span class="section-number purple-bg">4</span>Important Statements — the 10 Commandments</h2>
+  <h2 class="section-heading purple"><span class="section-number purple-bg">4</span><span class="head-label">Important Statements — the 10 Commandments</span></h2>
   <ol class="steps">
     <li><span class="step-num">1</span><span>An integral is <strong>Σ (function value) × (patch area)</strong>. Any coordinate change rewrites <em>both</em> factors. <a class="up" href="#theory-sum">proof ↑</a></span></li>
     <li><span class="step-num">2</span><span><strong>|det J| is the area-exchange rate</strong> between uv-area and xy-area: dA<sub>xy</sub> = |det J| du dv. <a class="up" href="#theory-derivation">proof ↑</a></span></li>
@@ -499,7 +513,7 @@ code{font-family:'Courier New',monospace;background:#f0ede0;border-radius:5px;pa
 
 <!-- ══════════ PAGE 6 — TRAPS ══════════ -->
 <section class="page" id="sec-traps">
-  <h2 class="section-heading orange"><span class="section-number orange-bg">5</span>Exam Traps — where students bleed marks</h2>
+  <h2 class="section-heading orange"><span class="section-number orange-bg">5</span><span class="head-label">Exam Traps — where students bleed marks</span></h2>
   <ul class="bullet-list">
     <li class="cross">Dropping |det J| because “it looks messy” — you silently assumed every patch has the parent square’s area.</li>
     <li class="cross">Writing ∂(x,y)/∂(u,v) when the given formulas are u(x,y), v(x,y) — or forgetting to reciprocate (FL-8!).</li>
@@ -525,7 +539,7 @@ code{font-family:'Courier New',monospace;background:#f0ede0;border-radius:5px;pa
 </section>
 <!-- ══════════ THE THEORY VAULT ══════════ -->
 <section class="page" id="vault">
-  <h2 class="section-heading blue"><span class="section-number blue-bg">6</span>THE THEORY VAULT — why it all works</h2>
+  <h2 class="section-heading blue"><span class="section-number blue-bg">6</span><span class="head-label">THE THEORY VAULT — why it all works</span></h2>
   <p style="font-size:14px;color:#666">Every formula card above lands here. Read top-to-bottom once; afterwards jump straight to the block you need before an exam.</p>
 
   <h3 class="sub-heading" id="theory-1d">6.1 · The 1-D rehearsal — the derivative was the Jacobian all along <a class="up" href="#sec-cards">↑ back to cards</a></h3>
@@ -648,7 +662,7 @@ code{font-family:'Courier New',monospace;background:#f0ede0;border-radius:5px;pa
 </section>
 <!-- ══════════ PAGE 7 — CHECK + MEMORY SHEET ══════════ -->
 <section class="page" id="sec-check">
-  <h2 class="section-heading green"><span class="section-number green-bg">7</span>60-Second Check — be honest, then peek</h2>
+  <h2 class="section-heading green"><span class="section-number green-bg">7</span><span class="head-label">60-Second Check — be honest, then peek</span></h2>
 
   <div class="quiz-box">
     <p class="quiz-question">Q1 · Area of the ellipse semi-axes 3 and 5 — without integrating anything?</p>
@@ -673,7 +687,7 @@ code{font-family:'Courier New',monospace;background:#f0ede0;border-radius:5px;pa
   </div>
 
   <div class="summary-card">
-    <h3>🧠 Final Memory Sheet — snapshot this page</h3>
+    <h3>Final Memory Sheet — snapshot this page</h3>
     <div class="summary-row"><span>The theorem</span><span><b>∬_R f dA = ∬_S f(T)·|∂(x,y)/∂(u,v)| du dv</b></span></div>
     <div class="summary-row"><span>Patch area</span><span><b>dA = |xᵤyᵥ − xᵥyᵤ| du dv</b></span></div>
     <div class="summary-row"><span>Polar</span><span><b>dA = r dr dθ</b></span></div>
