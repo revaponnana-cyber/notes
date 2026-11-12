@@ -8,7 +8,7 @@ A personal, plain-HTML notebook. No build step, no server, no framework.
 
 ## Notes
 
-- [Welcome & How These Notes Work](notes/welcome.html) — how this repo is organised.
+- [The Jacobian — Quick Study Sheet (Handwritten)](notes/jacobian-quick.html) — short handwritten-style revision sheet: formulas with terms explained, important statements, formula → theory links.
 - [The Jacobian Determinant — Change of Variables](notes/jacobian-determinant.html) — complete interactive study resource (derivations, worked problems, quizzes, exam prep) built from a YouTube transcript.
 
 ## Convention

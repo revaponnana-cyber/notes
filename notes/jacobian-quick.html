@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<!--
+  The Jacobian Determinant — HANDWRITTEN QUICK SHEET
+  A short, usable study note: formulas with every term explained, important
+  statements, and every formula is clickable → jumps to the theory & proof
+  behind it (later in this same page). 100% offline, no external assets.
+  For the full interactive course see notes/jacobian-determinant.html.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Jacobian — Quick Study Sheet (Handwritten)</title>
+<meta name="description" content="A short, handwritten-style Jacobian determinant quick sheet: every formula with its terms explained, important statements, common traps and the theory behind each formula — one click away.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
+<style>
+/* ============ "TOPPER'S HANDWRITTEN NOTES" — adapted offline ============ */
+:root{
+  --paper-bg:#fefcf3;
+  --line-color:#c8d8e8;
+  --red-pen:#d63031;
+  --blue-pen:#0984e3;
+  --green-pen:#00b894;
+  --purple-pen:#6c5ce7;
+  --orange-pen:#e17055;
+  --dark-ink:#2d3436;
+  --yellow-hl:#ffeaa7;
+  --green-hl:#b8f5cd;
+  --pink-hl:#fdcbcb;
+  --blue-hl:#c4e0ff;
+  --purple-hl:#e8d5f5;
+  --orange-hl:#fde2c8;
+  --sticky-yellow:#fff9c4;
+  --sticky-pink:#fce4ec;
+  --sticky-blue:#e3f2fd;
+  --sticky-green:#e8f5e9;
+  /* offline handwritten font stacks (no webfonts needed) */
+  --hand-title:'Segoe Script','Brush Script MT','Comic Sans MS','Bradley Hand',cursive;
+  --hand-head:'Comic Sans MS','Chalkboard SE','Segoe Print','Bradley Hand',cursive;
+  --hand-body:'Segoe Print','Comic Sans MS','Chalkboard SE','Bradley Hand',cursive;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{
+  background:#e8e0d0;
+  background-image:radial-gradient(#d9cfbc 1px, transparent 1px);
+  background-size:22px 22px;
+  font-family:var(--hand-body);
+  color:var(--dark-ink);
+  line-height:1.55;
+  font-size:16px;
+  overflow-x:hidden;
+}
+.notebook{max-width:1060px;margin:0 auto;padding:18px 14px 40px}
+
+/* ---- notebook page ---- */
+.page{
+  background:var(--paper-bg);
+  margin:26px 0;
+  padding:44px 52px 46px 82px;
+  border-radius:8px;
+  box-shadow:2px 2px 12px rgba(0,0,0,.18), inset -3px 0 8px rgba(0,0,0,.05);
+  position:relative;
+  background-image:repeating-linear-gradient(transparent, transparent 30px, var(--line-color) 30px, var(--line-color) 31px);
+  background-position:0 42px;
+  border-left:4px solid #d4a574;
+}
+.page::before{ /* red margin line */
+  content:'';position:absolute;left:64px;top:0;bottom:0;width:2px;background:#e8a0a0;opacity:.65;
+}
+.page::after{ /* leather spine */
+  content:'';position:absolute;left:0;top:0;bottom:0;width:5px;
+  background:linear-gradient(to bottom,#c4956a,#a0785a);border-radius:8px 0 0 8px;
+}
+:target{outline:3px dashed var(--orange-pen);outline-offset:4px;border-radius:6px}
+
+/* ---- title page ---- */
+.title-section{text-align:center;padding:22px 0 30px;position:relative}
+.title-badge{
+  display:inline-block;background:linear-gradient(135deg,#6c5ce7,#a29bfe);color:#fff;
+  padding:5px 18px;border-radius:20px;font-family:var(--hand-head);font-size:13px;
+  letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;
+}
+.main-title{
+  font-family:var(--hand-title);font-size:52px;font-weight:700;color:var(--blue-pen);
+  text-shadow:2px 2px 0 var(--blue-hl);display:inline-block;position:relative;line-height:1.15;
+}
+.main-title .underline-draw{
+  position:absolute;bottom:-8px;left:0;height:5px;width:100%;background:var(--orange-pen);
+  border-radius:3px;transform-origin:left;animation:drawLine 1.4s ease-out forwards;
+}
+@keyframes drawLine{0%{transform:scaleX(0)}100%{transform:scaleX(1)}}
+.subtitle{font-family:var(--hand-head);font-size:21px;color:var(--purple-pen);margin-top:18px}
+.subtitle-small{font-size:13px;color:#888;margin-top:6px;letter-spacing:.5px}
+
+/* ---- TOC box ---- */
+.toc{background:var(--blue-hl);border-radius:12px;padding:18px 24px;margin:16px 0;box-shadow:2px 2px 6px rgba(0,0,0,.08)}
+.toc-title{font-family:var(--hand-title);font-size:24px;font-weight:700;color:var(--blue-pen);margin-bottom:10px}
+.toc-list{list-style:none;columns:2;column-gap:26px}
+.toc-list li{padding:4px 0;font-size:15px;break-inside:avoid}
+.toc-list a{text-decoration:none;color:inherit;display:block;border-radius:6px;padding:2px 6px;transition:background .15s}
+.toc-list a:hover{background:rgba(255,255,255,.75);color:var(--blue-pen)}
+.toc-num{font-family:var(--hand-head);font-weight:700;color:var(--blue-pen);margin-right:6px}
+
+/* ---- section headings (color-coded) ---- */
+.section-heading{
+  font-family:var(--hand-title);font-size:31px;font-weight:700;margin:6px 0 16px;
+  padding:6px 4px 8px;display:flex;align-items:center;gap:12px;border-bottom:3px solid;
+}
+.section-heading.red{color:var(--red-pen);border-color:var(--red-pen)}
+.section-heading.blue{color:var(--blue-pen);border-color:var(--blue-pen)}
+.section-heading.green{color:var(--green-pen);border-color:var(--green-pen)}
+.section-heading.purple{color:var(--purple-pen);border-color:var(--purple-pen)}
+.section-heading.orange{color:var(--orange-pen);border-color:var(--orange-pen)}
+.section-number{
+  display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;
+  border-radius:50%;color:#fff;font-family:var(--hand-head);font-size:19px;flex-shrink:0;
+}
+.section-number.red-bg{background:var(--red-pen)} .section-number.blue-bg{background:var(--blue-pen)}
+.section-number.green-bg{background:var(--green-pen)} .section-number.purple-bg{background:var(--purple-pen)}
+.section-number.orange-bg{background:var(--orange-pen)}
+
+.sub-heading{font-family:var(--hand-title);font-size:21px;font-weight:600;margin:18px 0 8px;color:var(--purple-pen)}
+.sub-heading::before{content:'▸ ';color:var(--orange-pen)}
+
+/* ---- highlights ---- */
+.hl-yellow{background:linear-gradient(transparent 52%, var(--yellow-hl) 52%);padding:0 3px}
+.hl-green{background:linear-gradient(transparent 52%, var(--green-hl) 52%);padding:0 3px}
+.hl-pink{background:linear-gradient(transparent 52%, var(--pink-hl) 52%);padding:0 3px}
+.hl-blue{background:linear-gradient(transparent 52%, var(--blue-hl) 52%);padding:0 3px}
+
+/* ---- key box ---- */
+.key-box{
+  background:var(--paper-bg);border:2px solid var(--blue-pen);border-radius:12px;
+  padding:16px 20px 14px;margin:16px 0;position:relative;box-shadow:2px 2px 5px rgba(0,0,0,.06);
+}
+.key-box.green-border{border-color:var(--green-pen)}
+.key-box.red-border{border-color:var(--red-pen)}
+.key-box.purple-border{border-color:var(--purple-pen)}
+.key-box.orange-border{border-color:var(--orange-pen)}
+.box-label{
+  position:absolute;top:-13px;left:16px;padding:2px 12px;border-radius:8px;
+  font-family:var(--hand-head);font-size:13px;color:#fff;font-weight:700;letter-spacing:.6px;
+}
+.box-label.blue-bg{background:var(--blue-pen)} .box-label.green-bg{background:var(--green-pen)}
+.box-label.red-bg{background:var(--red-pen)} .box-label.purple-bg{background:var(--purple-pen)}
+.box-label.orange-bg{background:var(--orange-pen)}
+
+/* ---- sticky notes ---- */
+.sticky-note{
+  padding:14px 16px;margin:16px 4px;border-radius:3px;position:relative;max-width:560px;
+  box-shadow:2px 3px 8px rgba(0,0,0,.16);transform:rotate(-.6deg);font-size:15px;
+}
+.sticky-note.yellow{background:var(--sticky-yellow)}
+.sticky-note.pink{background:var(--sticky-pink);transform:rotate(.7deg)}
+.sticky-note.blue{background:var(--sticky-blue)}
+.sticky-note::before{content:'📌';position:absolute;top:-12px;left:18px;font-size:17px}
+.sticky-title{font-family:var(--hand-title);font-size:19px;font-weight:700;margin-bottom:4px;color:var(--dark-ink)}
+
+/* ---- formula card (THE star of this sheet) ---- */
+.formula-card{
+  background:linear-gradient(135deg,#fdfefe,#f2f6fd);border:2px dashed var(--blue-pen);
+  border-radius:12px;padding:16px 18px 12px;margin:16px 0;position:relative;
+  box-shadow:2px 2px 6px rgba(9,132,227,.12);break-inside:avoid;
+}
+.formula-card .formula-label{
+  position:absolute;top:-13px;right:16px;background:var(--blue-pen);color:#fff;
+  padding:2px 12px;border-radius:8px;font-family:var(--hand-head);font-size:12px;letter-spacing:.5px;
+}
+.formula-link{
+  display:inline-block;font-family:'Courier New',monospace;font-weight:700;color:var(--dark-ink);
+  text-decoration:none;font-size:19px;padding:6px 14px;background:#fff;border-radius:10px;
+  border:1.5px solid #d9e4f5;margin:4px 0 8px;transition:transform .15s, box-shadow .15s;
+}
+.formula-link:hover{transform:scale(1.04);box-shadow:0 4px 14px rgba(9,132,227,.35);border-color:var(--blue-pen)}
+.formula-link .red{color:var(--red-pen)} .formula-link .blue{color:var(--blue-pen)}
+.formula-link .green{color:var(--green-pen)} .formula-link .purple{color:var(--purple-pen)}
+.formula-link .orange{color:var(--orange-pen)}
+.formula-link small{font-size:11px;color:var(--blue-pen);font-family:var(--hand-head);display:block;text-align:center;letter-spacing:.5px}
+.terms{margin:6px 0 2px;font-size:14.5px}
+.terms dt{display:inline;font-family:'Courier New',monospace;font-weight:700;color:var(--purple-pen)}
+.terms dd{display:inline;margin:0 2px}
+.terms dd::after{content:' · ';color:#bbb}
+.terms dd:last-child::after{content:''}
+.theory-link{
+  font-family:var(--hand-head);font-size:13px;color:var(--purple-pen);font-weight:700;
+  text-decoration:none;border-bottom:2px dotted var(--purple-pen);
+}
+.theory-link:hover{color:var(--red-pen);border-color:var(--red-pen)}
+
+/* ---- table ---- */
+.notes-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14.5px}
+.notes-table th{font-family:var(--hand-title);font-size:17px;text-align:left;padding:8px 12px;border-bottom:2.5px solid var(--blue-pen);color:var(--blue-pen)}
+.notes-table td{padding:7px 12px;border-bottom:1.5px dashed #ddd;vertical-align:top}
+.notes-table tr:last-child td{border-bottom:none}
+.table-scroll{overflow-x:auto}
+
+/* ---- step list ---- */
+.steps{list-style:none;margin:10px 0}
+.steps li{display:flex;gap:10px;align-items:flex-start;margin:8px 0;font-size:15.5px}
+.step-num{
+  width:27px;height:27px;border-radius:50%;color:#fff;font-family:var(--hand-head);font-size:15px;
+  display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--orange-pen);margin-top:1px;
+}
+
+/* ---- bullet list with icons ---- */
+.bullet-list{list-style:none;margin:10px 0}
+.bullet-list li{position:relative;padding-left:28px;margin:6px 0;font-size:15.5px}
+.bullet-list li::before{content:'✦';position:absolute;left:2px;top:0}
+.bullet-list li.check::before{content:'✅'}
+.bullet-list li.cross::before{content:'❌'}
+.bullet-list li.warn::before{content:'⚠️'}
+.bullet-list li.star::before{content:'⭐'}
+.bullet-list li.arrow::before{content:'→'}
+
+/* ---- exam trick / memory trick / warning ---- */
+.exam-trick{background:linear-gradient(135deg,#fff3cd,#ffeeba);border:2px solid #ffc107;border-radius:12px;padding:16px 18px;margin:18px 0;position:relative}
+.exam-trick::before{content:'⭐ EXAM GOLD';position:absolute;top:-12px;left:14px;background:#ffc107;color:#856404;padding:2px 12px;border-radius:8px;font-family:var(--hand-head);font-size:13px;font-weight:700}
+.memory-trick{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border:2px solid var(--green-pen);border-radius:12px;padding:16px 18px;margin:18px 0;position:relative}
+.memory-trick::before{content:'🧠 MEMORY HOOK';position:absolute;top:-12px;left:14px;background:var(--green-pen);color:#fff;padding:2px 12px;border-radius:8px;font-family:var(--hand-head);font-size:13px;font-weight:700}
+.warning-box{background:linear-gradient(135deg,#fff3e0,#ffe0b2);border:2px solid var(--orange-pen);border-radius:12px;padding:16px 18px;margin:18px 0;position:relative}
+.warning-box::before{content:'⚠️ TRAPS';position:absolute;top:-12px;left:14px;background:var(--orange-pen);color:#fff;padding:2px 12px;border-radius:8px;font-family:var(--hand-head);font-size:13px;font-weight:700}
+
+/* ---- comparison grid ---- */
+.comparison-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.comparison-card{padding:14px 16px;border-radius:12px;border:2px solid;background:var(--paper-bg)}
+.comparison-card.blue{border-color:var(--blue-pen)} .comparison-card.red{border-color:var(--red-pen)}
+.card-title{font-family:var(--hand-title);font-size:19px;font-weight:700;margin-bottom:6px}
+.comparison-card.blue .card-title{color:var(--blue-pen)} .comparison-card.red .card-title{color:var(--red-pen)}
+
+/* ---- quick check (reveal) ---- */
+.quiz-box{background:linear-gradient(135deg,#e8eaf6,#c5cae9);border:2px solid #5c6bc0;border-radius:12px;padding:16px 18px;margin:16px 0;position:relative}
+.quiz-box::before{content:'🎯 60-SECOND CHECK';position:absolute;top:-12px;left:14px;background:#5c6bc0;color:#fff;padding:2px 12px;border-radius:8px;font-family:var(--hand-head);font-size:13px;font-weight:700}
+.quiz-question{font-weight:700;margin:12px 0 6px;font-size:16px}
+.quiz-answer{display:none;background:#fff;padding:8px 14px;border-radius:8px;margin-top:6px;border-left:4px solid #5c6bc0;font-size:15px}
+.quiz-answer.show{display:block}
+.reveal-btn{background:#5c6bc0;color:#fff;border:none;padding:5px 16px;border-radius:7px;font-family:var(--hand-head);font-size:14px;cursor:pointer;margin-top:4px}
+.reveal-btn:hover{background:#3949ab}
+
+/* ---- misc ---- */
+.divider{height:3px;background:linear-gradient(to right,transparent,var(--blue-pen),transparent);margin:26px 0;border-radius:2px}
+.diagram{background:#fff;border:2px solid #ddd;border-radius:12px;padding:10px;margin:14px 0;text-align:center}
+.diagram figcaption{font-size:12.5px;color:#777;margin-top:6px}
+.progress-bar{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(to right,var(--blue-pen),var(--purple-pen),var(--red-pen));z-index:1000;transition:width .12s}
+.backtop{position:fixed;right:14px;bottom:18px;z-index:900;background:var(--orange-pen);color:#fff;border:none;border-radius:50%;width:46px;height:46px;font-size:20px;cursor:pointer;box-shadow:2px 3px 10px rgba(0,0,0,.3);display:none;font-family:var(--hand-head)}
+.backtop.show{display:block}
+a.up{color:var(--blue-pen);text-decoration:none;font-family:var(--hand-head);font-size:12.5px;font-weight:700}
+a.up:hover{text-decoration:underline}
+code{font-family:'Courier New',monospace;background:#f0ede0;border-radius:5px;padding:1px 6px;font-size:.9em}
+.summary-card{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;border-radius:16px;padding:24px 26px;margin:18px 0;box-shadow:0 10px 30px rgba(102,126,234,.35)}
+.summary-card h3{font-family:var(--hand-title);font-size:26px;margin-bottom:10px}
+.summary-card .summary-row{display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.25);font-size:15.5px}
+.summary-card .summary-row:last-child{border-bottom:none}
+.summary-card .summary-row b{font-family:'Courier New',monospace}
+.full-note-link{display:block;text-align:center;margin:14px 0 0;font-family:var(--hand-head);font-size:15px}
+
+@media (max-width:768px){
+  .page{padding:30px 20px 34px 44px;margin:16px 0}
+  .page::before{left:32px}
+  .main-title{font-size:36px}
+  .section-heading{font-size:24px}
+  .toc-list{columns:1}
+  .comparison-grid{grid-template-columns:1fr}
+  .formula-link{font-size:16px}
+}
+@media print{
+  body{background:#fff;font-size:11pt}
+  .page{box-shadow:none;border:none;margin:0;padding:10px 20px;break-inside:avoid;background-image:none}
+  .page::before,.page::after,.progress-bar,.backtop,.reveal-btn{display:none}
+  .quiz-answer{display:block}
+  a{color:#000;text-decoration:none}
+}
+</style>
+</head>
+<body id="top">
+<div class="progress-bar" id="progressBar"></div>
+<div class="notebook">
+<!-- ══════════ PAGE 1 — TITLE ══════════ -->
+<section class="page" id="page-title">
+  <div class="title-section">
+    <div class="title-badge">Handwritten Cheat Sheet · 02</div>
+    <h1 class="main-title">The <span style="color:var(--orange-pen)">Jacobian</span><div class="underline-draw"></div></h1>
+    <p class="subtitle">Why the stretch factor <em>has</em> to be there</p>
+    <p class="subtitle-small">CHANGE OF VARIABLES · DOUBLE &amp; TRIPLE INTEGRALS · EXAM-READY · TAP ANY FORMULA → THEORY BEHIND IT</p>
+  </div>
+
+  <div class="sticky-note yellow" style="max-width:640px;margin:10px auto 4px;transform:rotate(-.8deg)">
+    <div class="sticky-title">🔑 The whole subject in one line</div>
+    An integral is a <span class="hl-yellow">sum of (function value) × (tiny area)</span>. Change the coordinates and the <em>tiny areas change size</em> — so you must multiply by <strong>|det J|</strong>, the area-exchange rate.
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">📋 What's inside</div>
+    <ol class="toc-list">
+      <li><a href="#sec-puzzle"><span class="toc-num">1</span>The one puzzle</a></li>
+      <li><a href="#sec-symbols"><span class="toc-num">2</span>Symbols &amp; terms, one line each</a></li>
+      <li><a href="#sec-cards"><span class="toc-num">3</span>Formula cards (every term explained)</a></li>
+      <li><a href="#sec-statements"><span class="toc-num">4</span>Important statements — the 10 commandments</a></li>
+      <li><a href="#sec-traps"><span class="toc-num">5</span>Exam traps to never fall into</a></li>
+      <li><a href="#vault"><span class="toc-num">6</span>🧠 THE THEORY VAULT (why it all works)</a></li>
+      <li><a href="#theory-1d"><span class="toc-num">6.1</span>1-D rehearsal: u-substitution</a></li>
+      <li><a href="#theory-sum"><span class="toc-num">6.2</span>The double integral is a sum</a></li>
+      <li><a href="#theory-derivation"><span class="toc-num">6.3</span>Derivation: area of one curved patch</a></li>
+      <li><a href="#theory-theorem"><span class="toc-num">6.4</span>The Change of Variables theorem</a></li>
+      <li><a href="#theory-polar"><span class="toc-num">6.5</span>Polar coordinates — where the r comes from</a></li>
+      <li><a href="#theory-ellipse"><span class="toc-num">6.6</span>The ellipse: πab for free</a></li>
+      <li><a href="#theory-tilted"><span class="toc-num">6.7</span>The tilted square &amp; inverse Jacobian</a></li>
+      <li><a href="#theory-gaussian"><span class="toc-num">6.8</span>The Gaussian integral, decoded</a></li>
+      <li><a href="#theory-triple"><span class="toc-num">6.9</span>3-D: spherical &amp; cylindrical</a></li>
+      <li><a href="#sec-check"><span class="toc-num">7</span>60-second check + final memory sheet</a></li>
+    </ol>
+  </div>
+  <p class="full-note-link">Want the full interactive course (quizzes, practice lab, 30 worked problems)? → <a href="jacobian-determinant.html">Open THE FULL NOTE</a></p>
+</section>
+
+<!-- ══════════ PAGE 2 — THE ONE PUZZLE ══════════ -->
+<section class="page" id="sec-puzzle">
+  <h2 class="section-heading red"><span class="section-number red-bg">1</span>The One Puzzle</h2>
+  <p style="font-size:16px;margin:6px 0">Find the <span class="hl-yellow">area of an ellipse</span> or the <span class="hl-yellow">volume under a bumpy surface on a round base</span> in x and y — the limits are ugly, the square roots pile up. Change the coordinates and the same integral becomes almost trivial: <u>the region becomes a rectangle and the limits become plain numbers</u>.</p>
+  <div class="key-box red-border">
+    <span class="box-label red-bg">THE CATCH</span>
+    You can't just swap the letters. Something extra must appear inside the integral — a <strong>stretching factor</strong>. Forget it and the answer is simply <em>wrong</em>. That factor is the <strong>Jacobian</strong>.
+  </div>
+  <div class="table-scroll"><table class="notes-table">
+    <thead><tr><th>Nightmare in (x, y)</th><th>Easy in (u, v)</th></tr></thead>
+    <tbody>
+      <tr><td>Area of ellipse x²/a² + y²/b² ≤ 1</td><td>Unit disk in (u, v), J = ab → <strong>area = πab</strong></td></tr>
+      <tr><td>Integral over the unit disk</td><td>Rectangle 0≤r≤1, 0≤θ≤2π → <strong>dA = r dr dθ</strong></td></tr>
+      <tr><td>Tilted lines x±y = const</td><td>Square [0,2]×[0,2] in (u = x+y, v = x−y), |J| = ½</td></tr>
+      <tr><td>Sphere volume</td><td>Box in (ρ, φ, θ) → <strong>dV = ρ² sinφ dρ dφ dθ</strong></td></tr>
+    </tbody>
+  </table></div>
+</section>
+<!-- ══════════ PAGE 3 — SYMBOLS & TERMS ══════════ -->
+<section class="page" id="sec-symbols">
+  <h2 class="section-heading blue"><span class="section-number blue-bg">2</span>Symbols &amp; Terms — <em>every</em> term, one line each</h2>
+  <div class="table-scroll"><table class="notes-table">
+    <thead><tr><th>Symbol</th><th>Say it as…</th><th>Means</th></tr></thead>
+    <tbody>
+      <tr><td><code>x, y</code></td><td>“old coordinates”</td><td>Where patches land — the xy-plane</td></tr>
+      <tr><td><code>u, v</code></td><td>“new coordinates”</td><td>The inputs — a square grid you wrap over the region</td></tr>
+      <tr><td><code>f(x, y)</code></td><td>“the integrand”</td><td>The function you're adding up over the region</td></tr>
+      <tr><td><code>R</code></td><td>“the region”</td><td>Ugly domain in xy (roots, mixed limits)</td></tr>
+      <tr><td><code>S</code></td><td>“the pre-image”</td><td>Nice domain in uv — usually a rectangle</td></tr>
+      <tr><td><code>T(u,v)</code></td><td>“the transformation”</td><td>x = x(u,v), y = y(u,v); carries S onto R</td></tr>
+      <tr><td><code>∂x/∂u</code></td><td>“partial x with respect to u”</td><td>Rate x changes as u moves, <em>v held fixed</em></td></tr>
+      <tr><td><code>J</code></td><td>“the Jacobian matrix”</td><td>[[∂x/∂u, ∂x/∂v],[∂y/∂u, ∂y/∂v]] — columns are the tangent arrows</td></tr>
+      <tr><td><code>∂(x,y)/∂(u,v)</code></td><td>“the Jacobian (determinant)”</td><td>det J = x<sub>u</sub>y<sub>v</sub> − x<sub>v</sub>y<sub>u</sub> — signed area-exchange rate</td></tr>
+      <tr><td><code>|det J|</code></td><td>“absolute Jacobian”</td><td>The actual area/volume stretch (areas can't be negative)</td></tr>
+      <tr><td><code>dA</code></td><td>“area element”</td><td>Tiny patch area: dx dy (cartesian) or r dr dθ (polar)</td></tr>
+      <tr><td><code>r, θ</code></td><td>“polar radius / angle”</td><td>r = distance from origin (≥ 0); θ from +x axis (radians)</td></tr>
+      <tr><td><code>ρ, φ, θ</code></td><td>“spherical coords”</td><td>ρ = 3-D radius; φ = polar angle from +z axis (0…π); θ = azimuth</td></tr>
+      <tr><td><code>a, b</code></td><td>“semi-axes”</td><td>Ellipse stretch: x = au, y = bv (det = ab)</td></tr>
+      <tr><td><code>g(u)</code></td><td>“substitution function”</td><td>1-D map x = g(u), dx = g′(u) du — the 1-D Jacobian</td></tr>
+    </tbody>
+  </table></div>
+  <p style="font-size:13px;color:#888;margin-top:8px">📱 Print this page first; every formula card on the next page uses exactly these symbols.</p>
+</section>
+
+<!-- ══════════ PAGE 4 — FORMULA CARDS I ══════════ -->
+<section class="page" id="sec-cards">
+  <h2 class="section-heading green"><span class="section-number green-bg">3</span>Formula Cards — tap the formula to <u>see why it works</u></h2>
+  <p style="font-size:14px;color:#666;margin:-4px 0 6px">Every card: the formula, <em>all its terms</em>, and a click-through to the theory vault.</p>
+
+  <div class="formula-card">
+    <span class="formula-label">CARD 1 · 1-D SEED</span>
+    <a class="formula-link" href="#theory-1d">∫ f(g(u)) · <span class="red">g′(u)</span> du = ∫ f(x) dx<small>CLICK → WHY · §6.1</small></a>
+    <dl class="terms">
+      <dt>g(u)</dt><dd>your substitution map (x = g(u))</dd>
+      <dt>g′(u)</dt><dd>its derivative = 1-D stretch factor</dd>
+      <dt>du</dt><dd>tiny step in u</dd>
+      <dt>dx</dt><dd>tiny step in x</dd>
+    </dl>
+    <span class="theory-link">→ The derivative IS the 1-D Jacobian. Full rehearsal in <a class="theory-link" href="#theory-1d">Theory §6.1</a></span>
+  </div>
+
+  <div class="formula-card">
+    <span class="formula-label">CARD 2 · PATCH AREA</span>
+    <a class="formula-link" href="#theory-derivation">dA<sub>xy</sub> = |<span class="red">x<sub>u</sub>y<sub>v</sub> − x<sub>v</sub>y<sub>u</sub></span>| du dv<small>CLICK → DERIVATION · §6.3</small></a>
+    <dl class="terms">
+      <dt>dA<sub>xy</sub></dt><dd>area of one curved patch in xy</dd>
+      <dt>x<sub>u</sub>…y<sub>v</sub></dt><dd>partial derivatives of x, y w.r.t. u, v</dd>
+      <dt>du dv</dt><dd>area of the parent uv-square</dd>
+      <dt>|…|</dt><dd>areas are never negative</dd>
+    </dl>
+    <span class="theory-link">→ Built from the two tangent arrows = parallelogram area. See <a class="theory-link" href="#theory-derivation">Theory §6.3</a></span>
+  </div>
+
+  <div class="formula-card">
+    <span class="formula-label">CARD 3 · ★ THE THEOREM</span>
+    <a class="formula-link" href="#theory-theorem">∬<sub>R</sub> f(x,y) dA = ∬<sub>S</sub> f(x(u,v), y(u,v)) · |<span class="red">∂(x,y)/∂(u,v)</span>| du dv<small>CLICK → THE THEOREM · §6.4</small></a>
+    <dl class="terms">
+      <dt>R</dt><dd>ugly region in xy</dd>
+      <dt>S</dt><dd>nice pre-image in uv (usually a rectangle)</dd>
+      <dt>f(x(u,v), y(u,v))</dt><dd>the integrand, rewritten in new variables</dd>
+      <dt>|∂(x,y)/∂(u,v)|</dt><dd>area-exchange rate — forget it and the answer is wrong</dd>
+      <dt>du dv</dt><dd>area element in uv</dd>
+    </dl>
+    <span class="theory-link">→ “Function value × area of the patch.” Hypotheses &amp; proof in <a class="theory-link" href="#theory-theorem">Theory §6.4</a></span>
+  </div>
+
+  <div class="formula-card">
+    <span class="formula-label">CARD 4 · POLAR</span>
+    <a class="formula-link" href="#theory-polar">x = r cos θ, y = r sin θ &nbsp;⇒&nbsp; dA = <span class="red">r</span> dr dθ<small>CLICK → WHY THE r · §6.5</small></a>
+    <dl class="terms">
+      <dt>r</dt><dd>distance from origin (≥ 0) — also det J = r</dd>
+      <dt>θ</dt><dd>angle from +x axis, one turn = 2π</dd>
+      <dt>r dr dθ</dt><dd>radial side (dr) × arc side (r·dθ)</dd>
+    </dl>
+    <span class="theory-link">→ Patches fan out like a hand fan — arc length grows with r. See <a class="theory-link" href="#theory-polar">Theory §6.5</a></span>
+  </div>
+
+  <div class="formula-card">
+    <span class="formula-label">CARD 5 · ELLIPSE</span>
+    <a class="formula-link" href="#theory-ellipse">x = au, y = bv &nbsp;⇒&nbsp; det J = <span class="red">ab</span> &nbsp;⇒&nbsp; Area = <span class="red">πab</span><small>CLICK → THE πab TRICK · §6.6</small></a>
+    <dl class="terms">
+      <dt>a, b</dt><dd>semi-axis lengths of the ellipse</dd>
+      <dt>diag J</dt><dd>matrix [[a,0],[0,b]] — constant determinant</dd>
+      <dt>u² + v² ≤ 1</dt><dd>the unit disk the ellipse un-stretches to</dd>
+    </dl>
+    <span class="theory-link">→ One number (ab) does all the work. See <a class="theory-link" href="#theory-ellipse">Theory §6.6</a></span>
+  </div>
+
+  <div class="formula-card">
+    <span class="formula-label">CARD 6 · TILTED SQUARE</span>
+    <a class="formula-link" href="#theory-tilted">u = x+y, v = x−y &nbsp;⇒&nbsp; det J = <span class="red">−½</span>, |det J| = <span class="green">½</span><small>CLICK → INVERSE JACOBIAN · §6.7</small></a>
+    <dl class="terms">
+      <dt>u, v</dt><dd>level curves of the two line families</dd>
+      <dt>x = (u+v)/2, y = (u−v)/2</dt><dd>the inverse map you actually differentiate</dd>
+      <dt>det J &lt; 0</dt><dd>orientation flip — area uses |det J| = ½</dd>
+    </dl>
+    <span class="theory-link">→ Diamond (diagonals 2 &amp; 2) → uv-square of area 4 × ½ = 2. See <a class="theory-link" href="#theory-tilted">Theory §6.7</a></span>
+  </div>
+
+  <div class="formula-card">
+    <span class="formula-label">CARD 7 · INVERSE JACOBIAN</span>
+    <a class="formula-link" href="#theory-tilted">∂(u,v)/∂(x,y) = <span class="red">1</span> / ∂(x,y)/∂(u,v)<small>CLICK → WHY RECIPROCAL · §6.7</small></a>
+    <dl class="terms">
+      <dt>∂(u,v)/∂(x,y)</dt><dd>easy direction: differentiate the given u(x,y), v(x,y)</dd>
+      <dt>∂(x,y)/∂(u,v)</dt><dd>direction the theorem wants — just reciprocate the determinants</dd>
+      <dt>≠ 0</dt><dd>the relation needs det J invertible</dd>
+    </dl>
+    <span class="theory-link">→ Matrices invert properly; <em>determinants reciprocate</em>. See <a class="theory-link" href="#theory-tilted">Theory §6.7</a></span>
+  </div>
+
+  <div class="formula-card">
+    <span class="formula-label">CARD 8 · SPHERICAL</span>
+    <a class="formula-link" href="#theory-triple">x = ρ sinφ cosθ, y = ρ sinφ sinθ, z = ρ cosφ ⇒ dV = <span class="red">ρ² sinφ</span> dρ dφ dθ<small>CLICK → 3×3 DETERMINANT · §6.9</small></a>
+    <dl class="terms">
+      <dt>ρ</dt><dd>distance from origin (≥ 0)</dd>
+      <dt>φ</dt><dd>polar angle from +z axis, 0 ≤ φ ≤ π (sinφ ≥ 0)</dd>
+      <dt>θ</dt><dd>azimuth around the z-axis</dd>
+      <dt>ρ² sinφ</dt><dd>two “growing circles” multiplied: ρ (φ-arc) × ρ sinφ (θ-arc)</dd>
+    </dl>
+    <span class="theory-link">→ Expand the 3×3 determinant slowly in <a class="theory-link" href="#theory-triple">Theory §6.9</a></span>
+  </div>
+
+  <div class="formula-card">
+    <span class="formula-label">CARD 9 · CYLINDRICAL</span>
+    <a class="formula-link" href="#theory-triple">x = r cosθ, y = r sinθ, z = z ⇒ dV = <span class="red">r</span> dr dθ dz<small>CLICK → POLAR × z · §6.9</small></a>
+    <dl class="terms">
+      <dt>r, θ</dt><dd>polar in the xy-plane (brings the factor r)</dd>
+      <dt>z</dt><dd>height — rides along unchanged (factor 1)</dd>
+    </dl>
+    <span class="theory-link">→ Block-diagonal matrix ⇒ det = r × 1. See <a class="theory-link" href="#theory-triple">Theory §6.9</a></span>
+  </div>
+
+  <div class="formula-card">
+    <span class="formula-label">CARD 10 · GAUSSIAN</span>
+    <a class="formula-link" href="#theory-gaussian">∫₀^∞ e<sup>−x²</sup> dx = <span class="red">√π / 2</span><small>CLICK → THE FAMOUS TRICK · §6.8</small></a>
+    <dl class="terms">
+      <dt>I²</dt><dd>square the integral → double integral over the first quadrant</dd>
+      <dt>e<sup>−(x²+y²)</sup></dt><dd>becomes e<sup>−r²</sup> — separable in polar!</dd>
+      <dt>the r</dt><dd>the Jacobian’s r makes ∫ e<sup>−r²</sup> r dr = ½ possible</dd>
+    </dl>
+    <span class="theory-link">→ The Jacobian is literally inside the proof that the bell curve normalizes. See <a class="theory-link" href="#theory-gaussian">Theory §6.8</a></span>
+  </div>
+</section>
+
+<!-- ══════════ PAGE 5 — IMPORTANT STATEMENTS ══════════ -->
+<section class="page" id="sec-statements">
+  <h2 class="section-heading purple"><span class="section-number purple-bg">4</span>Important Statements — the 10 Commandments</h2>
+  <ol class="steps">
+    <li><span class="step-num">1</span><span>An integral is <strong>Σ (function value) × (patch area)</strong>. Any coordinate change rewrites <em>both</em> factors. <a class="up" href="#theory-sum">proof ↑</a></span></li>
+    <li><span class="step-num">2</span><span><strong>|det J| is the area-exchange rate</strong> between uv-area and xy-area: dA<sub>xy</sub> = |det J| du dv. <a class="up" href="#theory-derivation">proof ↑</a></span></li>
+    <li><span class="step-num">3</span><span>The columns of J are the <strong>tangent vectors</strong> along the u- and v-grid lines; det J = signed area of the parallelogram they span. <a class="up" href="#theory-derivation">proof ↑</a></span></li>
+    <li><span class="step-num">4</span><span><strong>det J &lt; 0 means orientation flip</strong> (mirror), never negative area — scalar integrals always use |det J|. <a class="up" href="#theory-theorem">why ↑</a></span></li>
+    <li><span class="step-num">5</span><span><strong>∬<sub>R</sub> 1 dA = area(R)</strong> — always check your new integral on f ≡ 1 first; instant self-audit. <a class="up" href="#theory-theorem">why ↑</a></span></li>
+    <li><span class="step-num">6</span><span><strong>∂(u,v)/∂(x,y) = 1 / ∂(x,y)/∂(u,v)</strong> — determinants reciprocate; given the “backwards” formula, differentiate it and flip. <a class="up" href="#theory-tilted">why ↑</a></span></li>
+    <li><span class="step-num">7</span><span>Polar patches <strong>fan out</strong> — the factor r IS the growth of arc length (arc = r × θ). <a class="up" href="#theory-polar">why ↑</a></span></li>
+    <li><span class="step-num">8</span><span>Translation ⇒ det = <strong>1</strong> (areas unchanged); rotation ⇒ <strong>±1</strong>; uniform scale k in n-D ⇒ <strong>kⁿ</strong>; diagonal stretch diag(a₁…aₙ) ⇒ <strong>a₁···aₙ</strong>. <a class="up" href="#theory-triple">table ↑</a></span></li>
+    <li><span class="step-num">9</span><span>det J = <strong>0 on a point/curve</strong> is harmless (measure zero); <strong>0 on a whole region</strong> collapses a dimension and the theorem is inapplicable. <a class="up" href="#theory-theorem">why ↑</a></span></li>
+    <li><span class="step-num">10</span><span>The Gaussian integral <strong>∫₀^∞ e^(−x²) dx = √π/2</strong> is just polar + the Jacobian’s r in a trench coat. <a class="up" href="#theory-gaussian">proof ↑</a></span></li>
+  </ol>
+  <div class="exam-trick">
+    In the exam, if they ask <em>“compute the area of region bounded by …”</em> — it is ∬1 dA in disguise. Choose T so the region becomes a rectangle; then <strong>Area = |det J| × (rectangle area)</strong>. You can often finish in two lines, no antiderivatives at all.
+  </div>
+</section>
+
+<!-- ══════════ PAGE 6 — TRAPS ══════════ -->
+<section class="page" id="sec-traps">
+  <h2 class="section-heading orange"><span class="section-number orange-bg">5</span>Exam Traps — where students bleed marks</h2>
+  <ul class="bullet-list">
+    <li class="cross">Dropping |det J| because “it looks messy” — you silently assumed every patch has the parent square’s area.</li>
+    <li class="cross">Writing ∂(x,y)/∂(u,v) when the given formulas are u(x,y), v(x,y) — or forgetting to reciprocate (FL-8!).</li>
+    <li class="cross">Forgetting to substitute x = x(u,v), y = y(u,v) into <em>f</em> — transforming dA but not the integrand.</li>
+    <li class="cross">θ ∈ [0, 4π] → the disk covered twice → answer exactly <strong>double</strong> what it should be.</li>
+    <li class="cross">dA = dr dθ in polar — missing the r; unit disk area comes out 2π ≠ π (caught by the f ≡ 1 check!).</li>
+    <li class="cross">Spherical: dV = ρ² dρ dφ dθ — missing sin φ (the φ-arc has radius ρ sinφ).</li>
+    <li class="cross">Assuming det J is constant for a <em>nonlinear</em> map — only linear maps earn that privilege.</li>
+    <li class="cross">det J &lt; 0 panic — it’s a mirror, not a negative area. Take |det J| and carry on.</li>
+    <li class="cross">Trusting S without mapping <em>every</em> boundary curve — one missed edge = missing or double-counted area.</li>
+    <li class="cross">det(A + B) = det A + det B — <u>never</u> true; det(AB) = detA·detB <u>always</u> true.</li>
+  </ul>
+  <div class="comparison-grid">
+    <div class="comparison-card blue">
+      <div class="card-title">Signed det J</div>
+      <ul class="bullet-list" style="margin:0"><li class="arrow">orientation (CCW + / CW −)</li><li class="arrow">used in flux &amp; differential forms</li><li class="arrow">negative ⇒ flipped, not “negative area”</li></ul>
+    </div>
+    <div class="comparison-card red">
+      <div class="card-title">|det J|</div>
+      <ul class="bullet-list" style="margin:0"><li class="arrow">actual area/volume stretch</li><li class="arrow">used in <strong>every</strong> scalar integral</li><li class="arrow">always ≥ 0, zero ⇒ collapse</li></ul>
+    </div>
+  </div>
+</section>
+<!-- ══════════ THE THEORY VAULT ══════════ -->
+<section class="page" id="vault">
+  <h2 class="section-heading blue"><span class="section-number blue-bg">6</span>THE THEORY VAULT — why it all works</h2>
+  <p style="font-size:14px;color:#666">Every formula card above lands here. Read top-to-bottom once; afterwards jump straight to the block you need before an exam.</p>
+
+  <h3 class="sub-heading" id="theory-1d">6.1 · The 1-D rehearsal — the derivative was the Jacobian all along <a class="up" href="#sec-cards">↑ back to cards</a></h3>
+  <p>Compute <code>∫ 2x·cos(x²) dx</code>. Let u = x² — then <strong>du = 2x dx</strong> and the integral becomes ∫ cos u du = sin u + C = <span class="hl-green">sin(x²) + C</span>. Look at what actually happened:</p>
+  <ul class="bullet-list">
+    <li class="arrow">We replaced the <em>function</em> — and also <code>dx</code>. That replacement is <strong>not free</strong>: du = 2x·dx carries a factor 2x.</li>
+    <li class="arrow">That factor is the <strong>derivative</strong> — it tells how many times bigger a tiny x-interval becomes as a u-interval.</li>
+    <li class="arrow">For definite integrals, if x goes a → b, then u goes g⁻¹(a) → g⁻¹(b) — <em>and if g is decreasing, the limits flip</em>.</li>
+  </ul>
+  <div class="key-box green-border"><span class="box-label green-bg">THE ONE-LINE TRUTH</span>
+    In 1-D the “extra factor” is g′(u). <strong>In 2-D it is det J; in 3-D, the 3×3 determinant; in n-D, the n×n determinant.</strong> The only difference is <em>how many directions get stretched at once</em>.
+  </div>
+
+  <h3 class="sub-heading" id="theory-sum">6.2 · A double integral is a sum of “function × patch area” <a class="up" href="#sec-cards">↑ back to cards</a></h3>
+  <p>Chop R into a grid of tiny rectangles (width dx, height dy, area dA = dx·dy). Sample f at the middle of each, multiply, add, take the limit:</p>
+  <div class="key-box"><span class="box-label blue-bg">RIEMANN SUM</span>
+    <p style="text-align:center;font-family:'Courier New',monospace;font-weight:700;font-size:18px;margin:6px 0">∬<sub>R</sub> f(x,y) dA = lim<sub>mesh→0</sub> Σᵢⱼ f(xᵢ, yⱼ) · ΔAᵢⱼ</p>
+  </div>
+  <ul class="bullet-list">
+    <li class="arrow"><strong>Two ingredients, always:</strong> (1) the function value, (2) the patch area. When coordinates change, both change.</li>
+    <li class="arrow">Want a change of letters only? Impossible — the patch area itself changes, so the sum changes, so the answer changes.</li>
+    <li class="arrow"><strong>∬<sub>R</sub> 1 dA = area(R)</strong> — the integral “knows” area; that’s why this canary catches dropped Jacobians instantly.</li>
+  </ul>
+
+  <h3 class="sub-heading" id="theory-derivation">6.3 · Derivation — the area of one curved patch <a class="up" href="#sec-cards">↑ back to cards</a></h3>
+  <p>Take the tiny uv-square (du by dv, area du·dv) and follow its sides into xy:</p>
+  <ol class="steps">
+    <li><span class="step-num">1</span><span><strong>u-side:</strong> x changes at ∂x/∂u, y at ∂y/∂u ⇒ first arrow <code>a = (xᵤ, yᵤ)·du</code></span></li>
+    <li><span class="step-num">2</span><span><strong>v-side:</strong> x changes at ∂x/∂v, y at ∂y/∂v ⇒ second arrow <code>b = (xᵥ, yᵥ)·dv</code></span></li>
+    <li><span class="step-num">3</span><span>The curved patch ≈ the <strong>parallelogram a + b</strong>. The error is higher order in du, dv — it dies in the limit.</span></li>
+    <li><span class="step-num">4</span><span>Parallelogram area = <strong>|det [ a  b ]| = |xᵤyᵥ − xᵥyᵤ| du dv</strong>. Done.</span></li>
+  </ol>
+  <figure class="diagram">
+    <svg viewBox="0 0 700 210" role="img" aria-label="A uv-square maps to a parallelogram spanned by tangent vectors">
+      <rect x="30" y="45" width="80" height="80" fill="#e8f5e9" stroke="#00b894" stroke-width="2"/>
+      <text x="70" y="140" text-anchor="middle" font-size="13" fill="#2d3436" font-family="'Comic Sans MS'">uv-square (du·dv)</text>
+      <path d="M 125 85 L 220 85" stroke="#d63031" stroke-width="3" marker-end="url(#qa)"/>
+      <defs><marker id="qa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0L10,5L0,10z" fill="#d63031"/></marker></defs>
+      <path d="M 300 170 L 470 125 L 555 30 L 385 75 Z" fill="#ffeaa7" fill-opacity=".75" stroke="#e17055" stroke-width="2"/>
+      <line x1="300" y1="170" x2="470" y2="125" stroke="#0984e3" stroke-width="3.2"/>
+      <line x1="300" y1="170" x2="385" y2="75" stroke="#d63031" stroke-width="3.2"/>
+      <text x="392" y="160" font-size="13" fill="#0984e3" font-weight="bold" font-family="'Comic Sans MS'">a = (xᵤ, yᵤ)·du</text>
+      <text x="310" y="110" font-size="13" fill="#d63031" font-weight="bold" font-family="'Comic Sans MS'">b = (xᵥ, yᵥ)·dv</text>
+      <text x="433" y="98" font-size="12.5" fill="#856404" font-weight="bold" font-family="'Comic Sans MS'">area = |a × b|</text>
+    </svg>
+    <figcaption>One square in, one parallelogram out. The Jacobian determinant is that area, divided by du·dv.</figcaption>
+  </figure>
+
+  <h3 class="sub-heading" id="theory-theorem">6.4 · The Change of Variables theorem — the deal and its fine print <a class="up" href="#sec-cards">↑ back to cards</a></h3>
+  <div class="key-box"><span class="box-label blue-bg">THE THEOREM</span>
+    <p style="text-align:center;font-family:'Courier New',monospace;font-weight:700;font-size:17px;margin:8px 0">∬<sub>R</sub> f(x,y) dA = ∬<sub>S</sub> f(x(u,v), y(u,v)) · |∂(x,y)/∂(u,v)| du dv</p>
+    <p style="text-align:center;font-size:14px;color:#555">Read it aloud: <em>“Function value in the new variables, times the area of each patch, summed over S.”</em></p>
+  </div>
+  <p><strong>Fine print — the theorem is legal only if:</strong></p>
+  <ul class="bullet-list">
+    <li class="check">T is continuously differentiable (C¹) — the partials exist and are continuous.</li>
+    <li class="check">T is <strong>one-to-one</strong> on S (folding the plane counts some regions twice — e.g. θ ∈ [0, 4π]).</li>
+    <li class="check">det J ≠ 0 on S, <em>except possibly on a set of area zero</em> (points / curves). Polar’s r = 0 at the origin passes this test.</li>
+    <li class="warn">∫<sub>R</sub> f dA with det J ≡ 0 on a whole region — the map collapses area to zero; every term is destroyed; the theorem is dead.</li>
+  </ul>
+  <div class="memory-trick">Recipe: <strong>① spot R → ② pick T that straightens its boundary → ③ compute |det J| → ④ rewrite f AND the limits → ⑤ integrate → sanity-check with f ≡ 1.</strong></div>
+
+  <a class="up" href="#vault">↑ top of the vault</a>
+</section>
+<!-- ══════════ THEORY VAULT — part 2 ══════════ -->
+<section class="page" id="vault-2">
+  <h3 class="sub-heading" id="theory-polar">6.5 · Why polar pays a factor r <a class="up" href="#sec-cards">↑ back to cards</a></h3>
+  <p>Matrix of partials: ∂x/∂r = cosθ, ∂x/∂θ = −r sinθ, ∂y/∂r = sinθ, ∂y/∂θ = r cosθ.</p>
+  <p style="text-align:center;font-family:'Courier New',monospace;font-weight:700;font-size:17px;margin:8px 0">det = cosθ·r cosθ − (−r sinθ)·sinθ = r(cos²θ + sin²θ) = <span class="hl-yellow">r</span></p>
+  <ul class="bullet-list">
+    <li class="arrow"><strong>Arc length = r × angle.</strong> The angular side of a patch at radius r is r·dθ — not dθ.</li>
+    <li class="arrow">Radial side = dr. So patch area = dr × r dθ = <strong>r dr dθ</strong>.</li>
+    <li class="arrow">Near the origin patches shrink to nothing — the fan closes. Far out they grow — the fan opens. r is exactly that growth.</li>
+  </ul>
+  <div class="key-box green-border"><span class="box-label green-bg">SANITY CHECK</span>
+    Area of unit disk: ∫₀^{2π}∫₀¹ r dr dθ = 2π · ½ = <strong>π</strong> ✓ — matches πr² with r = 1. Drop the r and you get 2π. The f ≡ 1 check catches it every time.
+  </div>
+
+  <h3 class="sub-heading" id="theory-ellipse">6.6 · The ellipse: πab for the price of one determinant <a class="up" href="#sec-cards">↑ back to cards</a></h3>
+  <p>x = au, y = bv. Then x²/a² + y²/b² = u² + v² — the ellipse becomes the <strong>unit disk</strong>. The matrix is <strong>diagonal</strong> [a, b], so det J = ab <em>everywhere</em> (linear maps have constant Jacobians):</p>
+  <p style="text-align:center;font-family:'Courier New',monospace;font-weight:700;font-size:17px;margin:8px 0">Area = ∬<sub>ellipse</sub> 1 dA = ∬<sub>disk</sub> ab du dv = ab · π = <span class="hl-yellow">πab</span></p>
+  <p>No antiderivative, no roots — one number did everything. <em>Rotations and translations have det ±1 / 1, so tilted ellipses also get πab.</em></p>
+
+  <h3 class="sub-heading" id="theory-tilted">6.7 · The tilted square &amp; the inverse Jacobian <a class="up" href="#sec-cards">↑ back to cards</a></h3>
+  <p>Region: x + y ∈ [0,2], x − y ∈ [0,2] — a diamond with vertices (0,0), (1,1), (2,0), (1,−1). Let u = x + y, v = x − y ⇒ the region is the square [0,2]×[0,2]. The theorem wants x, y in terms of u, v — add/subtract: <strong>x = (u+v)/2, y = (u−v)/2</strong>.</p>
+  <p style="text-align:center;font-family:'Courier New',monospace;font-weight:700;font-size:16px;margin:8px 0">det J = (½)(−½) − (½)(½) = −½ &nbsp;⇒&nbsp; |det J| = ½</p>
+  <p style="text-align:center;font-family:'Courier New',monospace;font-weight:700;font-size:17px;margin:8px 0">Area = ∬<sub>[0,2]²</sub> ½ du dv = ½ × 4 = <span class="hl-yellow">2</span> = (d₁·d₂)/2 = (2·2)/2 ✓</p>
+  <div class="key-box"><span class="box-label blue-bg">INVERSE JACOBIAN (F8)</span>
+    <p style="text-align:center;font-family:'Courier New',monospace;font-weight:700;font-size:17px;margin:6px 0">∂(u,v)/∂(x,y) = det[[1,1],[1,−1]] = −2 = 1 / (−½)</p>
+    <p style="text-align:center;font-size:14px;color:#555">Differentiate the <em>given</em> (easy) map, take the reciprocal of the <strong>determinant</strong> — never invert matrices element-wise.</p>
+  </div>
+  <p><strong>Stretch by two one way, shrink by half the other.</strong> Negative det = the map mirrors the plane; area doesn’t care.</p>
+
+  <h3 class="sub-heading" id="theory-gaussian">6.8 · ∫₀^∞ e^(−x²) dx = √π/2 — the magic trick <a class="up" href="#sec-cards">↑ back to cards</a></h3>
+  <ol class="steps">
+    <li><span class="step-num">1</span><span>I = ∫₀^∞ e^(−x²) dx has no elementary antiderivative. So <strong>square it</strong>: I² = ∫₀^∞∫₀^∞ e^(−(x²+y²)) dx dy (a quarter-plane).</span></li>
+    <li><span class="step-num">2</span><span>Polar: x² + y² = r², dA = <strong>r dr dθ</strong>, first quadrant ⇒ r ∈ [0, ∞), θ ∈ [0, π/2].</span></li>
+    <li><span class="step-num">3</span><span>I² = ∫₀^{π/2} ∫₀^∞ e^(−r²) <strong>r dr</strong> dθ = (π/2) · [−½e^(−r²)]₀^∞ = (π/2)(½) = <strong>π/4</strong>.</span></li>
+    <li><span class="step-num">4</span><span>I &gt; 0 ⇒ <strong>I = √π/2</strong>, and over all ℝ the integral is √π.</span></li>
+  </ol>
+  <p>Without the Jacobian’s r, step 3 has no elementary antiderivative and the world never normalizes the normal distribution.</p>
+
+  <h3 class="sub-heading" id="theory-triple">6.9 · One dimension higher — spherical &amp; cylindrical <a class="up" href="#sec-cards">↑ back to cards</a></h3>
+  <p><strong>Cylindrical</strong> = polar in xy (factor r), z untouched (factor 1), block-diagonal: <strong>dV = r dr dθ dz</strong>.</p>
+  <p><strong>Spherical</strong> x = ρsinφcosθ, y = ρsinφsinθ, z = ρcosφ — expand the 3×3 determinant along the z-row:</p>
+  <p style="text-align:center;font-family:'Courier New',monospace;font-weight:700;font-size:15px;margin:8px 0">det = ρ²cos²φ·sinφ + ρ²sin³φ = ρ²sinφ(cos²φ + sin²φ) = <span class="hl-yellow">ρ² sinφ</span></p>
+  <div class="key-box green-border"><span class="box-label green-bg">THE 4-LINE DRILL</span>
+    Volume of sphere radius R: ∫₀^{2π}∫₀^π∫₀^R ρ² sinφ dρ dφ dθ = (R³/3)(2)(2π) = <strong>4/3 πR³</strong> ✓ — Archimedes agrees.
+  </div>
+  <div class="table-scroll"><table class="notes-table">
+    <thead><tr><th>Dimension</th><th>“Derivative” is played by</th><th>Element</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>g′(u)</td><td>dx = g′(u) du</td></tr>
+      <tr><td>2</td><td>2×2 det ∂(x,y)/∂(u,v)</td><td>dA = |det J| du dv</td></tr>
+      <tr><td>3</td><td>3×3 det ∂(x,y,z)/∂(u,v,w)</td><td>dV = |det J| du dv dw</td></tr>
+      <tr><td>n</td><td>n×n det ∂(x₁…xₙ)/∂(u₁…uₙ)</td><td>dVₙ = |det J| du₁…duₙ</td></tr>
+    </tbody>
+  </table></div>
+  <a class="up" href="#vault">↑ top of the vault</a>
+</section>
+<!-- ══════════ PAGE 7 — CHECK + MEMORY SHEET ══════════ -->
+<section class="page" id="sec-check">
+  <h2 class="section-heading green"><span class="section-number green-bg">7</span>60-Second Check — be honest, then peek</h2>
+
+  <div class="quiz-box">
+    <p class="quiz-question">Q1 · Area of the ellipse semi-axes 3 and 5 — without integrating anything?</p>
+    <button class="reveal-btn" data-answer="q1a">Reveal answer</button>
+    <div class="quiz-answer" id="q1a"><strong>15π ≈ 47.12</strong>. Stretch map x = 3u, y = 5v; det J = 15; ellipse = image of unit disk; area = 15 × π.</div>
+
+    <p class="quiz-question">Q2 · |∂(x,y)/∂(u,v)| for u = x + y, v = x − y? And the area of 0 ≤ u ≤ 2, 0 ≤ v ≤ 2?</p>
+    <button class="reveal-btn" data-answer="q2a">Reveal answer</button>
+    <div class="quiz-answer" id="q2a"><strong>½</strong> (det = −½) and area = ½ × 4 = <strong>2</strong> (a rhombus with diagonals 2 and 2 ✓).</div>
+
+    <p class="quiz-question">Q3 · Write dV in spherical coordinates and name every term.</p>
+    <button class="reveal-btn" data-answer="q3a">Reveal answer</button>
+    <div class="quiz-answer" id="q3a">dV = <strong>ρ² sinφ dρ dφ dθ</strong> — ρ = distance from origin; φ = polar angle from +z axis; θ = azimuth. ρ² = two circles’ worth of growth, sinφ = the φ-arc shrinking at the poles.</div>
+
+    <p class="quiz-question">Q4 · Why is θ ∈ [0, 4π] illegal for “the whole disk”?</p>
+    <button class="reveal-btn" data-answer="q4a">Reveal answer</button>
+    <div class="quiz-answer" id="q4a">Not <strong>one-to-one</strong> — the disk is swept twice, every area counted twice. Use θ ∈ [0, 2π).</div>
+
+    <p class="quiz-question">Q5 · Your ∬1 dA answer came out negative — what did you forget?</p>
+    <button class="reveal-btn" data-answer="q5a">Reveal answer</button>
+    <div class="quiz-answer" id="q5a">The <strong>absolute value</strong>: |det J|, never det J, for scalar integrals. det J &lt; 0 = orientation flip only.</div>
+  </div>
+
+  <div class="summary-card">
+    <h3>🧠 Final Memory Sheet — snapshot this page</h3>
+    <div class="summary-row"><span>The theorem</span><span><b>∬_R f dA = ∬_S f(T)·|∂(x,y)/∂(u,v)| du dv</b></span></div>
+    <div class="summary-row"><span>Patch area</span><span><b>dA = |xᵤyᵥ − xᵥyᵤ| du dv</b></span></div>
+    <div class="summary-row"><span>Polar</span><span><b>dA = r dr dθ</b></span></div>
+    <div class="summary-row"><span>Cylindrical</span><span><b>dV = r dr dθ dz</b></span></div>
+    <div class="summary-row"><span>Spherical</span><span><b>dV = ρ² sinφ dρ dφ dθ</b></span></div>
+    <div class="summary-row"><span>Ellipse</span><span><b>πab</b></span></div>
+    <div class="summary-row"><span>Tilted square</span><span><b>|det J| = ½</b></span></div>
+    <div class="summary-row"><span>Inverse</span><span><b>1 / det J</b></span></div>
+    <div class="summary-row"><span>Self-check</span><span><b>f ≡ 1 ⇒ ∬ dA = area(R)</b></span></div>
+    <div class="summary-row"><span>One line</span><span><b>Function value × patch area. Ask what happened to the patch!</b></span></div>
+  </div>
+  <p class="full-note-link">Deep-dive version with quizzes, practice lab &amp; 30 worked problems → <a href="jacobian-determinant.html" style="color:var(--purple-pen)">THE FULL NOTE</a></p>
+  <p class="full-note-link"><a href="../index.html" style="color:var(--blue-pen)">← All notes</a></p>
+</section>
+</div><!-- /notebook -->
+<button class="backtop" id="backTop" aria-label="Back to top">↑</button>
+
+<script>
+'use strict';
+/* Progress bar */
+(function () {
+  var bar = document.getElementById('progressBar');
+  var top = document.getElementById('backTop');
+  function onScroll() {
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    if (bar) bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+    if (top) top.classList.toggle('show', h.scrollTop > 500);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  if (top) top.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+})();
+/* Reveal answers */
+document.querySelectorAll('.reveal-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var ans = document.getElementById(btn.getAttribute('data-answer'));
+    if (!ans) return;
+    ans.classList.toggle('show');
+    btn.textContent = ans.classList.contains('show') ? 'Hide answer' : 'Reveal answer';
+  });
+});
+/* Smooth-scroll for anything that jumps inside the page */
+document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+  a.addEventListener('click', function () {
+    var target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
