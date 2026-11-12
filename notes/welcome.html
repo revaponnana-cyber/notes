@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<!--
+  Note: Welcome & How These Notes Work
+  Standalone file — open directly in a browser. No server or internet required.
+  Copy this file as a starting point for new notes (see templates/note-template.html).
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome &amp; How These Notes Work — My Notes</title>
+  <meta name="description" content="What this notes folder is, how notes are organised, and the convention for adding new ones." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>" />
+  <style>
+    :root {
+      --bg: #f7f5f0;
+      --surface: #ffffff;
+      --ink: #2b2a26;
+      --muted: #6f6c63;
+      --accent: #b3541e;
+      --accent-soft: #e8d9c8;
+      --border: #e3e0d6;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar .inner {
+      max-width: 760px; margin: 0 auto; padding: .8rem 1.25rem;
+      display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-size: .9rem;
+    }
+    .back-link { color: var(--accent); text-decoration: none; font-weight: 600; }
+    .back-link:hover { text-decoration: underline; }
+    .topbar .repo { color: var(--muted); }
+    .note { max-width: 760px; margin: 2.5rem auto 4rem; padding: 0 1.25rem; }
+    .meta {
+      display: flex; flex-wrap: wrap; gap: .75rem; align-items: center;
+      color: var(--muted); font-size: .85rem; margin-bottom: .6rem;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    .tag {
+      font-size: .68rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: .2rem .65rem;
+    }
+    h1 { font-size: clamp(1.8rem, 5vw, 2.6rem); letter-spacing: -.02em; line-height: 1.15; margin-bottom: .35rem; }
+    h2 {
+      font-size: 1.4rem; margin: 2rem 0 .5rem; padding-bottom: .3rem;
+      border-bottom: 2px solid var(--accent-soft);
+    }
+    p, li { font-size: 1.05rem; }
+    p { margin: .75rem 0; }
+    ul, ol { margin: .75rem 0 .75rem 1.5rem; }
+    code {
+      background: #efede5; border: 1px solid var(--border); border-radius: 6px;
+      padding: .1rem .4rem; font-size: .9em;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+    pre {
+      background: #2b2a26; color: #f7f5f0; border-radius: var(--radius);
+      padding: 1rem 1.2rem; overflow-x: auto; margin: 1rem 0;
+    }
+    pre code { background: none; border: none; color: inherit; padding: 0; }
+    blockquote {
+      border-left: 4px solid var(--accent); padding: .35rem 1rem; margin: 1rem 0;
+      color: var(--muted); font-style: italic; background: #fbfaf7;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .foot {
+      max-width: 760px; margin: 0 auto; padding: 1.25rem;
+      border-top: 1px solid var(--border); color: var(--muted); font-size: .82rem;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar" aria-label="Note navigation">
+    <div class="inner">
+      <a class="back-link" href="../index.html">← All notes</a>
+      <span class="repo">notes/welcome.html</span>
+    </div>
+  </nav>
+
+  <article class="note">
+    <div class="meta">
+      <span class="tag">Meta</span>
+      <time datetime="2026-11-12">12 November 2026</time>
+    </div>
+
+    <h1>Welcome &amp; How These Notes Work</h1>
+
+    <p>This repository is a personal, plain-HTML notebook. There is no build step, no server, no framework and no database. Every note is a single, self-contained HTML file that you can open by double-clicking it in any modern browser.</p>
+
+    <h2>The one rule</h2>
+    <blockquote>Each new topic gets its own new HTML file inside <code>notes/</code>. Notes that already exist get edited in place, not duplicated.</blockquote>
+
+    <h2>How notes are organised</h2>
+    <ul>
+      <li><code>index.html</code> — the contents page. Lists every note and has a search box. Open this first.</li>
+      <li><code>notes/&lt;topic&gt;.html</code> — one file per note. Fully self-contained: styles are inline, no external files needed.</li>
+      <li><code>templates/note-template.html</code> — a starter skeleton for new notes.</li>
+    </ul>
+
+    <h2>Writing a new note</h2>
+    <ol>
+      <li>Decide the topic — e.g. <em>"Git rebase basics"</em>.</li>
+      <li>A new file is created at <code>notes/git-rebase-basics.html</code>, copied from the template.</li>
+      <li>The note is written in full, inline CSS included, so the file works standalone.</li>
+      <li>A card linking to the new note is added to <code>index.html</code> on the contents page.</li>
+    </ol>
+
+    <h2>Modifying an existing note</h2>
+    <p>If the topic already has a note, that file is edited in place — rewritten or extended — and the contents page entry is updated only if the title or summary changed.</p>
+
+    <h2>Viewing your notes</h2>
+    <p>Just open any <code>.html</code> file in a browser:</p>
+    <pre><code># Linux
+xdg-open index.html
+
+# macOS
+open index.html
+
+# Windows
+start index.html</code></pre>
+    <p>No internet connection is required — fonts are system fonts and everything is inline.</p>
+  </article>
+
+  <footer class="foot">
+    My Notes · plain, self-contained HTML &nbsp;·&nbsp; <a class="back-link" href="../index.html">Back to contents →</a>
+  </footer>
+</body>
+</html>

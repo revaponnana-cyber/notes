@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<!--
+  Notes index — the notes themselves live as standalone HTML files in notes/.
+  Open this file by double-clicking it, or open any note directly.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Notes — Contents</title>
+  <meta name="description" content="Contents page for my personal notes. Each note is a standalone HTML file." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>" />
+  <style>
+    :root {
+      --bg: #f7f5f0;
+      --surface: #ffffff;
+      --ink: #2b2a26;
+      --muted: #6f6c63;
+      --accent: #b3541e;
+      --accent-soft: #e8d9c8;
+      --border: #e3e0d6;
+      --shadow: 0 1px 3px rgba(43,42,38,.08), 0 6px 18px rgba(43,42,38,.06);
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 1.25rem; }
+    .site-header {
+      background: linear-gradient(160deg, #2b2a26 0%, #3d3a33 100%);
+      color: #f7f5f0;
+      padding: 3.5rem 0 3rem;
+      border-bottom: 4px solid var(--accent);
+    }
+    .eyebrow {
+      text-transform: uppercase; letter-spacing: .18em; font-size: .75rem;
+      color: var(--accent-soft);
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin-bottom: .5rem;
+    }
+    .site-title { font-size: clamp(2.2rem, 6vw, 3.2rem); letter-spacing: -.02em; line-height: 1.1; }
+    .site-tagline { margin-top: .6rem; color: #cfccc2; max-width: 46ch; font-size: 1.05rem; }
+    .toolbar { display: flex; gap: .75rem; align-items: center; margin: 2rem 0 1.25rem; }
+    .search-wrap { position: relative; flex: 1; }
+    .search-wrap svg {
+      position: absolute; left: .9rem; top: 50%; transform: translateY(-50%);
+      width: 1.1rem; height: 1.1rem; stroke: var(--muted); pointer-events: none;
+    }
+    #search {
+      width: 100%; padding: .75rem 1rem .75rem 2.6rem; font: inherit; font-size: 1rem;
+      color: var(--ink); background: var(--surface); border: 1px solid var(--border);
+      border-radius: 999px; box-shadow: var(--shadow); outline: none;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    #search:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(179,84,30,.18); }
+    .result-count {
+      color: var(--muted); font-size: .85rem; white-space: nowrap;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    .notes-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem; padding-bottom: 3rem;
+    }
+    .note-card {
+      display: flex; flex-direction: column; gap: .45rem;
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 1.4rem 1.4rem 1.2rem; text-decoration: none; color: inherit; box-shadow: var(--shadow);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .note-card:hover, .note-card:focus-visible {
+      transform: translateY(-3px); border-color: var(--accent);
+      box-shadow: 0 2px 6px rgba(43,42,38,.1), 0 12px 32px rgba(43,42,38,.12); outline: none;
+    }
+    .tag {
+      align-self: flex-start; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-size: .68rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: .2rem .65rem;
+    }
+    .note-card h2 { font-size: 1.35rem; line-height: 1.25; }
+    .note-card p { color: var(--muted); font-size: .95rem; }
+    .note-card time {
+      margin-top: auto; padding-top: .75rem; border-top: 1px dashed var(--border);
+      color: var(--muted); font-size: .8rem;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    .empty-state { display: none; text-align: center; color: var(--muted); padding: 3rem 1rem 4rem; font-style: italic; }
+    .site-footer {
+      border-top: 1px solid var(--border); color: var(--muted); font-size: .85rem; padding: 1.25rem 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    .site-footer .container { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
+    @media (max-width: 560px) {
+      .toolbar { flex-direction: column; align-items: stretch; }
+      .result-count { align-self: flex-end; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <p class="eyebrow">Personal Notes</p>
+      <h1 class="site-title">My Notes</h1>
+      <p class="site-tagline">A plain-HTML notebook. Every note is a single, self-contained HTML file in <code>notes/</code> — double-click it to read, no server needed.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="21" y1="21" x2="16.5" y2="16.5"></line>
+        </svg>
+        <input id="search" type="text" placeholder="Search notes by title, tag or content…" autocomplete="off" aria-label="Search notes" />
+      </div>
+      <span class="result-count" id="result-count"></span>
+    </div>
+
+    <section class="notes-grid" id="notes-grid" aria-label="All notes">
+
+      <a class="note-card" href="notes/welcome.html" data-search="welcome getting started how this site works notes meta">
+        <span class="tag">Meta</span>
+        <h2>Welcome &amp; How These Notes Work</h2>
+        <p>What this notes folder is, how notes are organised, and the convention for adding new ones.</p>
+        <time datetime="2026-11-12">12 Nov 2026</time>
+      </a>
+
+    </section>
+
+    <p class="empty-state" id="empty-state">No notes match your search. Try a different keyword.</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>My Notes — plain, self-contained HTML files</span>
+      <span>Contents page · each note in <code>notes/</code></span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var input = document.getElementById('search');
+      var grid = document.getElementById('notes-grid');
+      var cards = Array.prototype.slice.call(grid.querySelectorAll('.note-card'));
+      var emptyState = document.getElementById('empty-state');
+      var countEl = document.getElementById('result-count');
+
+      function update() {
+        var q = input.value.trim().toLowerCase();
+        var visible = 0;
+        cards.forEach(function (card) {
+          var haystack = (card.getAttribute('data-search') || card.textContent).toLowerCase();
+          var match = !q || haystack.indexOf(q) !== -1;
+          card.style.display = match ? '' : 'none';
+          if (match) visible++;
+        });
+        emptyState.style.display = visible === 0 ? 'block' : 'none';
+        countEl.textContent = q
+          ? visible + ' of ' + cards.length + ' notes'
+          : cards.length + ' note' + (cards.length === 1 ? '' : 's');
+      }
+
+      input.addEventListener('input', update);
+      update();
+    })();
+  </script>
+</body>
+</html>
